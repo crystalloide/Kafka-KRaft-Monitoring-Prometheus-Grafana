@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'kafka-monitor'
+
+scrape_configs:
+  # Scraping des métriques Kafka via JMX Exporter
+  - job_name: 'kafka-broker'
+    static_configs:
+      - targets: 
+          - 'kafka-1:8080'
+          - 'kafka-2:8081'
+          - 'kafka-3:8082'
+        labels:
+          env: 'dev'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: hostname
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+  
+  # Monitoring de Prometheus lui-même
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

@@ -1,0 +1,163 @@
+services:
+  # Kafka Broker 1 (Controller + Broker)
+  kafka-1:
+    image: confluentinc/cp-kafka:7.9.0
+    hostname: kafka-1
+    container_name: kafka-1
+    ports:
+      - "19091:19091"
+      - "29091:29091"
+      - "9100:9100"  # JMX metrics
+      - "8080:8080"  # JMX Exporter metrics pour Prometheus
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+      KAFKA_LISTENERS: 'PLAINTEXT://:29091,CONTROLLER://:19091'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-1:29091'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-1:19091,2@kafka-2:19092,3@kafka-3:19093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkQkQm1kNWI3NDFmZmFlNA=='
+      # JMX Configuration
+      KAFKA_JMX_PORT: 9100
+      KAFKA_JMX_HOSTNAME: kafka-1
+      KAFKA_JMX_OPTS: '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-1 -Dcom.sun.management.jmxremote.rmi.port=9100'
+      # JMX Exporter (Java Agent) pour exposer les métriques à Prometheus
+      KAFKA_OPTS: '-javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent.jar=8080:/usr/share/jmx-exporter/kafka-broker.yml'
+    volumes:
+      - kafka-1-data:/var/lib/kafka/data
+      - ./jmx-exporter:/usr/share/jmx-exporter
+    networks:
+      - kafka-network
+
+  # Kafka Broker 2 (Controller + Broker)
+  kafka-2:
+    image: confluentinc/cp-kafka:7.9.0
+    hostname: kafka-2
+    container_name: kafka-2
+    ports:
+      - "19092:19092"
+      - "29092:29092"
+      - "9101:9101"  # JMX metrics
+      - "8081:8081"  # JMX Exporter metrics pour Prometheus
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+      KAFKA_LISTENERS: 'PLAINTEXT://:29092,CONTROLLER://:19092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-2:29092'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-1:19091,2@kafka-2:19092,3@kafka-3:19093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkQkQm1kNWI3NDFmZmFlNA=='
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: kafka-2
+      KAFKA_JMX_OPTS: '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-2 -Dcom.sun.management.jmxremote.rmi.port=9101'
+      KAFKA_OPTS: '-javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent.jar=8081:/usr/share/jmx-exporter/kafka-broker.yml'
+    volumes:
+      - kafka-2-data:/var/lib/kafka/data
+      - ./jmx-exporter:/usr/share/jmx-exporter
+    networks:
+      - kafka-network
+
+  # Kafka Broker 3 (Controller + Broker)
+  kafka-3:
+    image: confluentinc/cp-kafka:7.9.0
+    hostname: kafka-3
+    container_name: kafka-3
+    ports:
+      - "19093:19093"
+      - "29093:29093"
+      - "9102:9102"  # JMX metrics
+      - "8082:8082"  # JMX Exporter metrics pour Prometheus
+    environment:
+      KAFKA_NODE_ID: 3
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+      KAFKA_LISTENERS: 'PLAINTEXT://:29093,CONTROLLER://:19093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka-3:29093'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-1:19091,2@kafka-2:19092,3@kafka-3:19093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkQkQm1kNWI3NDFmZmFlNA=='
+      KAFKA_JMX_PORT: 9102
+      KAFKA_JMX_HOSTNAME: kafka-3
+      KAFKA_JMX_OPTS: '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-3 -Dcom.sun.management.jmxremote.rmi.port=9102'
+      KAFKA_OPTS: '-javaagent:/usr/share/jmx-exporter/jmx_prometheus_javaagent.jar=8082:/usr/share/jmx-exporter/kafka-broker.yml'
+    volumes:
+      - kafka-3-data:/var/lib/kafka/data
+      - ./jmx-exporter:/usr/share/jmx-exporter
+    networks:
+      - kafka-network
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - kafka-network
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+      # GF_INSTALL_PLUGINS: 'grafana-piechart-panel'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - ./grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ./dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - kafka-network
+    depends_on:
+      - prometheus
+
+  # Kafka UI (optional - pour visualiser les topics)
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8888:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: kraft-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:29091,kafka-2:29092,kafka-3:29093
+    networks:
+      - kafka-network
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
+volumes:
+  kafka-1-data:
+  kafka-2-data:
+  kafka-3-data:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  kafka-network:
+    driver: bridge
