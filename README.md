@@ -11,10 +11,10 @@ cd Kafka-KRaft-Monitoring-Prometheus-Grafana
 
 ```bash
 # Démarrer l'environnement
-docker-compose up -d
+docker compose up -d
 
 # Attendre que tout soit prêt (environ 30 secondes)
-watch docker-compose ps
+watch docker compose ps
 ```
 
 ### 2️⃣ Vérification (1 minute)
