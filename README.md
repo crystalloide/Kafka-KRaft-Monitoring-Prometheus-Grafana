@@ -1,5 +1,10 @@
 # 🚀 Guide de Démarrage Rapide
 
+```bash
+git clone https://github.com/crystalloide/Kafka-KRaft-Monitoring-Prometheus-Grafana
+cd Kafka-KRaft-Monitoring-Prometheus-Grafana
+```
+
 ## Installation en 3 étapes
 
 ### 1️⃣ Préparation (2 minutes)
