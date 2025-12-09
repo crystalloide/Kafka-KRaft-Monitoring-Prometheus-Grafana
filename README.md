@@ -8,7 +8,7 @@ sudo chmod 777 -Rf *
 
 ## Installation :
 
-### 1️⃣ Démarrage (1 minute)
+### 1️⃣ Démarrage (3 minutes)
 
 ```bash
 # Démarrer l'environnement
@@ -18,14 +18,14 @@ docker compose up -d
 watch docker compose ps
 ```
 
-### 2️⃣ Vérification (1 minute)
+### 2️⃣ Vérification (2 minutes)
 
 ```bash
 # Vérifier que tout fonctionne
 curl http://localhost:8080/metrics | head -20
 ```
 
-## 🎯 Accès rapide
+## 🎯 Accès ( après 4 minutes le temps du lancement complet)
 
 | Service | URL |
 |---------|-----|
