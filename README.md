@@ -34,8 +34,6 @@ curl http://localhost:8080/metrics | head -20
 | 📈 **Prometheus métriques** | http://localhost:8080/metrics |
 | 🎛️ **Kafka UI** | http://localhost:8888 |
 
-http://localhost:8080/metrics
-
 **Identifiants Grafana:** `admin` / `admin`
 
 ## 🧪 Test rapide
