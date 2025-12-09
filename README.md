@@ -3,6 +3,7 @@
 ```bash
 git clone https://github.com/crystalloide/Kafka-KRaft-Monitoring-Prometheus-Grafana
 cd Kafka-KRaft-Monitoring-Prometheus-Grafana
+sudo chmod 777 -Rf *
 ```
 
 ## Installation :
