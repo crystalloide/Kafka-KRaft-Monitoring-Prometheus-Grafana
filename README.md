@@ -5,17 +5,9 @@ git clone https://github.com/crystalloide/Kafka-KRaft-Monitoring-Prometheus-Graf
 cd Kafka-KRaft-Monitoring-Prometheus-Grafana
 ```
 
-## Installation en 3 étapes
+## Installation :
 
-### 1️⃣ Préparation (2 minutes)
-
-```bash
-# Télécharger les dépendances
-chmod +x setup.sh
-./setup.sh
-```
-
-### 2️⃣ Démarrage (1 minute)
+### 1️⃣ Démarrage (1 minute)
 
 ```bash
 # Démarrer l'environnement
@@ -25,7 +17,7 @@ docker-compose up -d
 watch docker-compose ps
 ```
 
-### 3️⃣ Vérification (1 minute)
+### 2️⃣ Vérification (1 minute)
 
 ```bash
 # Vérifier que tout fonctionne
@@ -45,15 +37,6 @@ curl http://localhost:8080/metrics | head -20
 ## 🧪 Test rapide
 
 ```bash
-# Si vous avez make installé
-make install              # Installation complète
-make test-topic          # Créer un topic de test
-make load-test           # Générer de la charge
-make open-grafana        # Ouvrir Grafana
-
-# Sans make
-./setup.sh
-docker-compose up -d
 docker exec kafka-1 kafka-topics --bootstrap-server kafka-1:29091 --create --topic test --partitions 3 --replication-factor 3
 ```
 
