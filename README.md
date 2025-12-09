@@ -1,6 +1,7 @@
 # 🚀 Guide de démarrage rapide :
 
 ```bash
+sudo rm -Rf Kafka-KRaft-Monitoring-Prometheus-Grafana
 git clone https://github.com/crystalloide/Kafka-KRaft-Monitoring-Prometheus-Grafana
 cd Kafka-KRaft-Monitoring-Prometheus-Grafana
 sudo chmod 777 -Rf *
