@@ -1,4 +1,4 @@
-# 🚀 Guide de Démarrage Rapide
+# 🚀 Guide de démarrage rapide :
 
 ```bash
 git clone https://github.com/crystalloide/Kafka-KRaft-Monitoring-Prometheus-Grafana
