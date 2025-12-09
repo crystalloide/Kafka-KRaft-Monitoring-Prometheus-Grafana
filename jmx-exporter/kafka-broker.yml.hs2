@@ -1,0 +1,74 @@
+---
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+whitelistObjectNames:
+  - kafka.controller:*
+  - kafka.server:*
+  - java.lang:*
+  - kafka.network:*
+  - kafka.log:*
+
+rules:
+  # Broker metrics
+  - pattern: kafka.server<type=(.+), name=(.+), clientId=(.+), topic=(.+), partition=(.*)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+    labels:
+      clientId: "$3"
+      topic: "$4"
+      partition: "$5"
+
+  - pattern: kafka.server<type=(.+), name=(.+), clientId=(.+), brokerHost=(.+), brokerPort=(.+)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+    labels:
+      clientId: "$3"
+      broker: "$4:$5"
+
+  - pattern: kafka.server<type=(.+), name=(.+)><>Value
+    name: kafka_server_$1_$2
+    type: GAUGE
+
+  # Coordinator metrics
+  - pattern: kafka.coordinator.(\w+)<type=(.+), name=(.+)><>Value
+    name: kafka_coordinator_$1_$2_$3
+    type: GAUGE
+
+  # Network metrics
+  - pattern: kafka.network<type=(.+), name=(.+)><>Value
+    name: kafka_network_$1_$2
+    type: GAUGE
+
+  - pattern: kafka.network<type=(.+), name=(.+), request=(.+)><>Value
+    name: kafka_network_$1_$2
+    type: GAUGE
+    labels:
+      request: "$3"
+
+  # Log metrics
+  - pattern: kafka.log<type=(.+), name=(.+), topic=(.+), partition=(.+)><>Value
+    name: kafka_log_$1_$2
+    type: GAUGE
+    labels:
+      topic: "$3"
+      partition: "$4"
+
+  # Controller metrics
+  - pattern: kafka.controller<type=(.+), name=(.+)><>Value
+    name: kafka_controller_$1_$2
+    type: GAUGE
+
+  # JVM metrics
+  - pattern: java.lang<type=(.+), name=(.+)><(.+)>(\w+)
+    name: java_lang_$1_$2_$3_$4
+    type: GAUGE
+
+  - pattern: java.lang<type=(.+), name=(.+)><>(\w+)
+    name: java_lang_$1_$2_$3
+    type: GAUGE
+
+  # Catch-all for other metrics
+  - pattern: kafka.(\w+)<type=(.+), name=(.+)><>Value
+    name: kafka_$1_$2_$3
+    type: GAUGE
