@@ -66,13 +66,13 @@ done
 docker-compose logs -f kafka-1
 
 # Redémarrer un service
-docker-compose restart kafka-1
+docker compose restart kafka-1
 
 # Arrêter tout
-docker-compose down
+docker compose stop 
 
-# Nettoyage complet
-docker-compose down -v
+# Arrêt et nettoyage complet
+docker compose down -v
 ```
 
 ## 🐛 Problèmes fréquents
@@ -91,7 +91,7 @@ curl http://localhost:9090/api/v1/targets
 
 ```bash
 # Vérifier les logs
-docker-compose logs kafka-1
+docker compose logs kafka-1
 
 # Vérifier la RAM disponible (minimum 8GB recommandé)
 docker stats
