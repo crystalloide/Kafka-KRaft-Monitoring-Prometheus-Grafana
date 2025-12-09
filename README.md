@@ -26,7 +26,7 @@ watch docker compose ps
 curl http://localhost:8080/metrics | head -20
 ```
 
-## 🎯 Accès ( après 4 minutes le temps du lancement complet)
+## 🎯 Accès (après ~5 minutes le temps du lancement complet)
 
 | Service | URL |
 |---------|-----|
