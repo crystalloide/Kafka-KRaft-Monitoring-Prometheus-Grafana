@@ -47,8 +47,8 @@ docker exec kafka-1 kafka-topics --bootstrap-server kafka-1:29091 --create --top
 
 1. Aller sur http://localhost:3000
 2. Se connecter avec `admin` / `admin`
-3. Aller dans **Dashboards** → Chercher "Kafka"
-4. Sélectionner **Kafka Overview**
+3. Aller dans **Dashboards** 
+4. Sélectionner **Kafka KRaft Cluster - Monitoring**
 
 ## 🔥 Générer de la charge pour voir les métriques
 
