@@ -31,7 +31,10 @@ curl http://localhost:8080/metrics | head -20
 |---------|-----|
 | 📊 **Grafana** | http://localhost:3000 |
 | 📈 **Prometheus** | http://localhost:9090 |
+| 📈 **Prometheus métriques** | http://localhost:8080/metrics |
 | 🎛️ **Kafka UI** | http://localhost:8888 |
+
+http://localhost:8080/metrics
 
 **Identifiants Grafana:** `admin` / `admin`
 
