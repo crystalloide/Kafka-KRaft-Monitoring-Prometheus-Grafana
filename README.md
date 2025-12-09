@@ -9,7 +9,7 @@ sudo chmod 777 -Rf *
 
 ## Installation :
 
-### 1️⃣ Démarrage (3 minutes)
+### 1️⃣ Démarrage (3 minutes ou plutôt 15 minutes si les images dockers ne sont pas présentes en local ...)
 
 ```bash
 # Démarrer l'environnement
