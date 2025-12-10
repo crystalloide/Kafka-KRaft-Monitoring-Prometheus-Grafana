@@ -66,7 +66,7 @@ done
 
 ```bash
 # Voir les logs
-docker-compose logs -f kafka-1
+docker compose logs -f kafka-1
 
 # Redémarrer un service
 docker compose restart kafka-1
